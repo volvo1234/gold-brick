@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import test from './ramda/size';
+import test from './ramda/spread';
 
 const App = () => <h1>Good la</h1>
 
