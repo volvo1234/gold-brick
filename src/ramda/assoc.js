@@ -7,6 +7,9 @@ const data = {
 
 const myFn = assoc('first', 789);
 
+
+//  just add something
+
 const test = () => {
   console.log('result: ', myFn(data));
 };
