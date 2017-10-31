@@ -141,7 +141,7 @@ const SearchType = state => {
     }
   }
 
-  //{/*<Dropdown options={options} placeholder='Select Search Type' selection fluid onChange={_handleChange} defaultValue={'cardNumber'} />*/}
+
   return (
     <Dropdown
       options={options}

@@ -79,10 +79,7 @@ export const handlers = {
 
 const popupOpenStream$ = popupOpen$.map(currentState => state => flip(append)([])(merge(currentState, { isPopupOpen: false })));
 const popupCloseStream$ = popupClose$.next(currentState => state => flip(append)([])(merge(currentState, dissoc('isPopupOpen', state))));
-
-
 const extensionOpenStream$ = extensionOpen$.map(() => state => flip(append)([])(merge(state, { isExtensionOpen: true })));
-
 const extensionCloseStream$ = extensionClose$.map(() => state => flip(append)([])(merge(state, { isExtensionOpen: false })));
 
 
@@ -158,9 +155,6 @@ export default Observable.merge(
   }),
 
   searchReloaditExtension$.map(() => state => {
-    // const URL  = `/api/reloadit?cardNumber=4744308240&country=US&dateCriteria=DateRange&dateStart=2017-05-14&dateEnd=2017-08-20&filter=true&timeStart=00:00&timeEnd=23:55`;
-    //const URL  = `/api/reloadit?cardNumber=${term}&country=''&dateCriteria=''&dateStart=''&dateEnd=''&filter=${extension}&timeStart=''&timeEnd=''`;
-    // "/api/reloadit?cardNumber=6039535000912727621&country='United States'&dateCriteria='Last 30 days'&dateStart=''&dateEnd=''",
     const term = state.inputValue;
     const extension = true;
     const country = state.country || "''";
@@ -311,11 +305,9 @@ export default Observable.merge(
   }),
 
   searchRRN$.map(() => state => {
-    console.log(" **** search RRN code here *****", state);
     if (state != null && state !== "undefined") {
       const term = state.inputValue;
       const URL = `/api/egift?RRN=${term}&tenantId=BHN Digital Testing`;
-      // change search button to loading
       state.loader = true;
 
       Observable.of({})
@@ -339,17 +331,11 @@ export default Observable.merge(
   }),
 
   searchReloadit$.map(() => state => {
-    console.log(
-      " **** search Reloadit code here *****, can i see state???",
-      state
-    );
     if (state != null && state !== "undefined") {
-      // "/api/reloadit?cardNumber=6039535000912727621&country='United States'&dateCriteria='Last 30 days'&dateStart=''&dateEnd=''",
       const term = state.inputValue;
       const extension = false;
       // change search button to loading
       state.loader = true;
-      // const URL  = `/api/reloadit?cardNumber=4744308240&country=US&dateCriteria=DateRange&dateStart=2017-05-14&dateEnd=2017-08-20&filter=true&timeStart=00:00&timeEnd=23:55`;
       const URL = `/api/reloadit?cardNumber=${term}&country=''&dateCriteria=''&dateStart=''&dateEnd=''&filter=${extension}&timeStart=''&timeEnd=''`;
 
       Observable.of({})
@@ -387,9 +373,6 @@ export default Observable.merge(
     flip(append)([])(merge(currentState, state))
   ),
 
-  // myAsync$.map(currentState => state => flip(append)([])(merge(currentState, state))),
-
-
     balanceInquiry$.map(val => state => {
       //cardNumber=6039535000912727621
       console.log("balance inquiry - card number", val);
@@ -412,24 +395,6 @@ export default Observable.merge(
     }),
 
 
-
-  /*
-  balanceInquiry$.map(val => state => {
-    //cardNumber=6039535000912727621
-    console.log("balance inquiry - card number", val);
-    //const cardNumber = 6039535000912727621;
-    Observable.of({})
-      .switchMap(() =>
-        ajax.getJSON(
-          `/api/balanceInquiry?cardNumber=${val}&upc=02113001520&pin=7621`
-        )
-      )
-      .subscribe(balanceResult => {
-        console.log("balance inquiry result: ", balanceResult);
-        myAsync$.next(Object.assign(state, { balanceResults: balanceResult }));
-      });
-  }),
-*/
 
   resendEGift$.map(val => state => {
     console.log("resend eGift card number", val);

@@ -24,8 +24,6 @@ function withPopup (Component1) {
   }
 }
 
-// this will generate the advanced search button
-// it will be disabled when a given search type doesn't have any advanced search parameters
 const AdvancedSearchButton = (props) => {
   const disabled = getContentFn(props);
   const local = { disabled };
@@ -52,45 +50,3 @@ const SearchExtension = compose(
 
 export default SearchExtension;
 
-
-/*
-
-import React from "react";
-import { Button, Popup } from "semantic-ui-react";
-import { lensPath, compose, view } from "ramda";
-import ReloaditDetail from "./ReloaditDetail";
-import RRNDetail from "./RRNDetail";
-
-function withPopup(Component1) {
-  return function(Component2) {
-    return function(props) {
-      return (
-        <Popup trigger={Component2(props)} on="click">
-          {Component1()}
-        </Popup>
-      );
-    };
-  };
-}
-
-const MyButton = props => <Button {...props} primary icon="chevron down" />;
-const getContentFn = props => view(lensPath(["0", "disabled"]), props);
-
-function withContent(fn) {
-  return function(Component) {
-    return function(props) {
-      const disabled = getContentFn(props);
-      const local = { disabled };
-      return <Component {...props} {...local} />;
-    };
-  };
-}
-
-const SearchExtension = compose(
-  withContent(getContentFn),
-  compose(withPopup)(ReloaditDetail),
-  compose(withPopup)(RRNDetail)
-)(MyButton);
-
-export default SearchExtension;
-*/

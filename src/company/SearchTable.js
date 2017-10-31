@@ -22,9 +22,6 @@ const MyModal = (open, item) => {
 };
 
 
-//{transactionId: "HMSMCW57RZZCDKPTSQMT9GJ4J8", isCompleted: false, percentComplete: 0}
-
-
 const ResendModal = (open, item) => {
   const transactionId = view(lensProp("transactionId"), item);
   const isCompleted = view(lensProp("isCompleted"), item);
@@ -150,23 +147,7 @@ function getContentFn(props) {
   return { data, headerColumn };
 }
 
-/*
-function withContent(fn) {
-  return function(Component) {
-    return function(props) {
-      const { data, headerColumn } = fn(props);
-      const open = props["0"].balanceResults ? true : false;
-      return (
-        <div>
-          {MyModal(open, props["0"].balanceResults)}
-          {Component(data, headerColumn)}
-        </div>
-      );
-    };
-  };
-}
 
-*/
 
 function withContent(fn) {
   return function(Component) {
@@ -176,7 +157,6 @@ function withContent(fn) {
       const open = props["0"].resendResults ? true : false;
       return (
           <div>
-            {/*{MyModal(open, props["0"].balanceResults)}*/}
             {ResendModal(open, props["0"].resendResults)}
             {Component(data, headerColumn)}
           </div>
@@ -203,133 +183,3 @@ const SearchTable = compose(withContent(getContentFn))(
 );
 
 export default SearchTable;
-/*
-
-import React from "react";
-import { compose } from "ramda";
-import ReactTable from "react-table";
-import "react-table/react-table.css";
-import PopupMenu from "./PopupMenu";
-
-function getContentFn(props) {
-  const headerColumn = {
-    Header: "Transaction Records",
-    columns: [
-      {
-        Header: "Action",
-        Cell: row => {
-          const newProps = Object.assign({}, props["0"], {
-            cardNumber: row.original.cardNumber
-          });
-          return PopupMenu(newProps);
-        }
-      },
-      {
-        Header: "Transaction Time (PDT)",
-
-        accessor: "transactionTimestamp"
-      },
-      {
-        Header: "Card Number",
-
-        accessor: "cardNumber"
-      },
-      {
-        Header: "Merchant Id",
-
-        accessor: "merchantId"
-      },
-      {
-        Header: "Merchant Name",
-
-        accessor: "merchantName"
-      },
-      {
-        Header: "Product Id",
-
-        accessor: "upc"
-      },
-      {
-        Header: "Product Name",
-
-        accessor: "productName"
-      },
-
-      {
-        Header: "Store Id",
-
-        accessor: "storeId"
-      },
-      {
-        Header: "Store Name",
-
-        accessor: "storeName"
-      },
-
-      {
-        Header: "Terminal Id",
-
-        accessor: "terminalId"
-      },
-
-      {
-        Header: "Amount ($)",
-
-        accessor: "transactionAmount"
-      },
-
-      {
-        Header: "Status",
-
-        accessor: "transactionStatus.status"
-      },
-      {
-        Header: "Transaction Type",
-
-        accessor: "transactionType"
-      },
-
-      {
-        Header: "Message Type",
-
-        accessor: "messageType"
-      }
-    ]
-  };
-
-  var data;
-  if (props["0"]) {
-    data = props["0"].transactionRecords;
-  }
-
-  return { data, headerColumn };
-}
-
-function withContent(fn) {
-  return function(Component) {
-    return function(props) {
-      const { data, headerColumn } = fn(props);
-      return Component(data, headerColumn);
-    };
-  };
-}
-
-function TableWrapper(Component) {
-  return function(data, headerColumn) {
-    return (
-      <Component
-        data={data}
-        columns={[headerColumn]}
-        defaultPageSize={10}
-        className="-striped -highlight"
-      />
-    );
-  };
-}
-
-const SearchTable = compose(withContent(getContentFn))(
-  TableWrapper(ReactTable)
-);
-
-export default SearchTable;
-*/
