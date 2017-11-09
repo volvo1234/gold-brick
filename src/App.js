@@ -19,8 +19,8 @@ const appState$ = Observable.merge(myInput$.map(myInputCmd)).scan((acc, c) => c(
 ////////////////////// React Components /////////////////////////////////////////////////
 
 
-const PalindromeWord = word => <Header as='h3' color="green">{word}</Header>
-const NonPalindromeWord = word => <Header as='h3' color="black">{word}</Header>
+const PalindromeWord = word => <Header as='h3' color="green" style={{display:'inline-block', marginRight:'5px'}}>{word}</Header>
+const NonPalindromeWord = word => <Header as='h3' color="black" style={{display:'inline-block', marginRight:'5px'}}>{word}</Header>
 
 
 const MyParagrahp = paragraph => {
@@ -48,7 +48,7 @@ const MyParagrahp = paragraph => {
   return (
       <div>
         <Input focus placeholder='Please enter a paragraph ...' onChange={_handleChange} style={{width: '600px'}}/>
-        { displayAll(stringArray) }
+        <div>{ displayAll(stringArray) }</div>
       </div>)
 };
 
