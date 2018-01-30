@@ -144,7 +144,6 @@ const AccountSummary = ({ history }) => {
 const App = () => (
     <Router>
         <div>
-
             <Route exact path="/" component={Login}/>
             <Route path="/summary" component={AccountSummary}/>
             <Route path='/details' render={
