@@ -2,83 +2,8 @@ import React, { Component } from 'react';
 import { Button, Checkbox, Form, Grid } from 'semantic-ui-react';
 import ReactTable from 'react-table';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import data from './testData';
 
-// test data
-const data = [
-    {
-        nickName: 'Joe',
-        customerSince: 1998,
-        location: 'CA',
-        detailInfo: [{
-            userName: 'Jason Joe',
-            age: 23,
-            amount: '$2000',
-            type: 'saving'
-        }]
-    },
-    {
-        nickName: 'Tom',
-        customerSince: 1980,
-        location: 'NY',
-        detailInfo: [{
-            userName: 'Jason Tom',
-            age: 80,
-            amount: '$4000',
-            type: 'checking'
-        }]
-    },
-    {
-        nickName: 'Max',
-        customerSince: 2008,
-        location: 'MA',
-        detailInfo: [{
-            userName: 'Jason Max',
-            age: 73,
-            amount: '$12000',
-            type: 'checking'
-        }]
-    },
-    {
-        nickName: 'Bob',
-        customerSince: 1982,
-        location: 'WA',
-        detailInfo: [{
-            userName: 'Jason Bob',
-            age: 66,
-            amount: '$200',
-            type: 'saving'
-        }]
-    },
-];
-
-const AccountDetail = item => {
-    const columns = [
-        {
-            Header: 'Name',
-            accessor: 'userName'
-        },
-        {
-            Header: 'Age',
-            accessor: 'age',
-        },
-        {
-            Header: 'Amount',
-            accessor: 'amount'
-        },
-        {
-            Header: 'Acount Type',
-            accessor: 'type'
-        }
-    ];
-
-    return (
-        <Grid centered columns={2} style={{paddingTop: '50px'}}>
-            <Grid.Column>
-                <ReactTable data={item} columns={columns} />
-            </Grid.Column>
-        </Grid>
-    )
-};
 
 const Login = ({ history }) => {
     const handleLogin = e => history.push('/summary');
@@ -113,15 +38,12 @@ const AccountSummary = ({ history }) => {
         })
     };
 
+    const handleLogout = e => history.push('/');
+
     const columns = [
         {
-            Header: 'Action',
-            Cell: row => <Button circular icon='setting' size='mini' onClick={handleDetail(row.original)} />,
-            width: 60
-        },
-        {
             Header: 'Nick Name',
-            accessor: 'nickName' // String-based value accessors!
+            accessor: 'nickName'
         },
         {
             Header: 'Customer Since',
@@ -129,16 +51,55 @@ const AccountSummary = ({ history }) => {
         },
         {
             Header: 'Location',
-            accessor: 'location' // Custom value accessors!
-        }
+            accessor: 'location'
+        },
+        {
+            Header: 'Action',
+            Cell: row => <Button circular icon='angle right' size='mini' onClick={handleDetail(row.original)} style={{backgroundColor: 'gold'}}/>,
+            width: 60
+        },
     ];
 
     return (
         <Grid centered columns={2} style={{paddingTop: '50px'}}>
             <Grid.Column>
+                <Button primary onClick={handleLogout} style={{marginBottom: '20px'}}>Logout</Button>
                 <ReactTable data={data} columns={columns} />
             </Grid.Column>
         </Grid>)
+};
+
+
+const AccountDetail = history => item => {
+    const columns = [
+        {
+            Header: 'Name',
+            accessor: 'userName'
+        },
+        {
+            Header: 'Age',
+            accessor: 'age',
+        },
+        {
+            Header: 'Amount',
+            accessor: 'amount'
+        },
+        {
+            Header: 'Acount Type',
+            accessor: 'type'
+        }
+    ];
+
+    const handleBack = history => e => history.push('./summary');
+
+    return (
+        <Grid centered columns={2} style={{paddingTop: '50px'}}>
+            <Grid.Column >
+                <Button primary onClick={handleBack(history)} style={{marginBottom: '20px'}}>Back</Button>
+                <ReactTable data={item} columns={columns} />
+            </Grid.Column>
+        </Grid>
+    )
 };
 
 const App = () => (
@@ -147,12 +108,12 @@ const App = () => (
             <Route exact path="/" component={Login}/>
             <Route path="/summary" component={AccountSummary}/>
             <Route path='/details' render={
-                ({location}) => {
-                    return AccountDetail(location.state.detailInfo);
+                ({location, history }) => {
+                    return AccountDetail(history)(location.state.detailInfo);
                 }
             } />
         </div>
     </Router>
-)
+);
 
 export default App;
